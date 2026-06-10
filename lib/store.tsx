@@ -17,6 +17,8 @@ interface StoreContextType {
   searchOpen: boolean;
   addToCart: (item: Omit<CartItem, "quantity">) => void;
   removeFromCart: (slug: string, size: string) => void;
+  updateQuantity: (slug: string, size: string, delta: number) => void;
+  clearCart: () => void;
   setCartOpen: (v: boolean) => void;
   setSearchOpen: (v: boolean) => void;
   cartCount: number;
@@ -47,12 +49,22 @@ export function StoreProvider({ children }: { children: ReactNode }) {
     setCart((prev) => prev.filter((i) => !(i.slug === slug && i.size === size)));
   }, []);
 
+  const updateQuantity = useCallback((slug: string, size: string, delta: number) => {
+    setCart((prev) =>
+      prev
+        .map((i) => i.slug === slug && i.size === size ? { ...i, quantity: i.quantity + delta } : i)
+        .filter((i) => i.quantity > 0)
+    );
+  }, []);
+
+  const clearCart = useCallback(() => setCart([]), []);
+
   const cartCount = cart.reduce((s, i) => s + i.quantity, 0);
   const cartTotal = cart.reduce((s, i) => s + i.price * i.quantity, 0);
 
   return (
     <StoreContext.Provider
-      value={{ cart, cartOpen, searchOpen, addToCart, removeFromCart, setCartOpen, setSearchOpen, cartCount, cartTotal }}
+      value={{ cart, cartOpen, searchOpen, addToCart, removeFromCart, updateQuantity, clearCart, setCartOpen, setSearchOpen, cartCount, cartTotal }}
     >
       {children}
     </StoreContext.Provider>

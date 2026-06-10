@@ -7,8 +7,8 @@ import Link from "next/link";
 import { StoreProvider, useStore } from "@/lib/store";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
+import Image from "next/image";
 import ProductCard from "@/components/ProductCard";
-import BottleIllustration from "@/components/BottleIllustration";
 import { fragrances } from "@/lib/fragrances";
 
 function ProductContent({ slug }: { slug: string }) {
@@ -69,19 +69,22 @@ function ProductContent({ slug }: { slug: string }) {
               className="relative flex items-center justify-center bg-[#0a0a0a] border border-white/5 aspect-square"
             >
               <div
-                className="absolute inset-0 pointer-events-none"
+                className="absolute inset-0 pointer-events-none z-10"
                 style={{
-                  background: `radial-gradient(ellipse 60% 60% at 50% 55%, ${fragrance.accentColor}10 0%, transparent 65%)`,
+                  background: `radial-gradient(ellipse 60% 60% at 50% 55%, ${fragrance.accentColor}08 0%, transparent 65%)`,
                 }}
               />
               <motion.div
                 animate={{ y: [0, -10, 0] }}
                 transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+                className="relative w-full h-full"
               >
-                <BottleIllustration
-                  size="xl"
-                  accentColor={fragrance.accentColor}
-                  sublabel={fragrance.name.toUpperCase()}
+                <Image
+                  src={fragrance.image}
+                  alt={fragrance.name}
+                  fill
+                  className="object-contain p-8"
+                  priority
                 />
               </motion.div>
             </motion.div>

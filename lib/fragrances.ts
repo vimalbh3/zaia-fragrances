@@ -10,6 +10,7 @@ export interface Fragrance {
   keyNotes: string;
   bottleColor: string;
   accentColor: string;
+  image: string;
 }
 
 export const fragrances: Fragrance[] = [
@@ -30,6 +31,7 @@ export const fragrances: Fragrance[] = [
     keyNotes: "Amber, Smoke, Vanilla",
     bottleColor: "#1a1a1a",
     accentColor: "#c9a96e",
+    image: "/bottle-noir-ambre.png",
   },
   {
     slug: "santal-veil",
@@ -48,6 +50,7 @@ export const fragrances: Fragrance[] = [
     keyNotes: "Sandalwood, Iris, Musk",
     bottleColor: "#1a1a1a",
     accentColor: "#9b8a7a",
+    image: "/bottle-santal-veil.png",
   },
   {
     slug: "fleur-dombre",
@@ -66,6 +69,7 @@ export const fragrances: Fragrance[] = [
     keyNotes: "Jasmine, Ambrox, Patchouli",
     bottleColor: "#1a1a1a",
     accentColor: "#d4b8c7",
+    image: "/bottle-fleur-dombre.png",
   },
   {
     slug: "citrus-nebuleuse",
@@ -84,6 +88,7 @@ export const fragrances: Fragrance[] = [
     keyNotes: "Bergamot, Neroli, White Tea",
     bottleColor: "#1a1a1a",
     accentColor: "#b8c9a0",
+    image: "/bottle-citrus-nebuleuse.png",
   },
   {
     slug: "oud-silhouette",
@@ -102,6 +107,7 @@ export const fragrances: Fragrance[] = [
     keyNotes: "Oud, Leather, Incense",
     bottleColor: "#1a1a1a",
     accentColor: "#8a7055",
+    image: "/bottle-oud-silhouette.png",
   },
 ];
 

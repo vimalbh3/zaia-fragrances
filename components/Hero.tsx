@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
-import BottleIllustration from "./BottleIllustration";
+import Image from "next/image";
 
 export default function Hero() {
   return (
@@ -113,26 +113,21 @@ export default function Hero() {
             initial={{ opacity: 0, y: 40, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             transition={{ delay: 0.5, duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-            className="relative"
+            className="relative w-[320px] h-[420px] lg:w-[400px] lg:h-[520px]"
           >
-            {/* Floating animation wrapper */}
             <motion.div
               animate={{ y: [0, -12, 0] }}
               transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+              className="relative w-full h-full"
             >
-              <BottleIllustration size="xl" accentColor="#c9a96e" sublabel="NOIR AMBRE" />
+              <Image
+                src="/bottle-noir-ambre.png"
+                alt="Noir Ambre"
+                fill
+                className="object-contain drop-shadow-2xl"
+                priority
+              />
             </motion.div>
-
-            {/* Ground shadow */}
-            <motion.div
-              animate={{ scaleX: [1, 0.85, 1] }}
-              transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-              className="mt-2 mx-auto w-40 h-3"
-              style={{
-                background: "radial-gradient(ellipse, rgba(0,0,0,0.6) 0%, transparent 70%)",
-                filter: "blur(6px)",
-              }}
-            />
           </motion.div>
 
           {/* Fragrance label floating */}

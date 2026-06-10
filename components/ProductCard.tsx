@@ -4,9 +4,9 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Eye, ShoppingBag } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 import { Fragrance } from "@/lib/fragrances";
 import { useStore } from "@/lib/store";
-import BottleIllustration from "./BottleIllustration";
 
 interface ProductCardProps {
   fragrance: Fragrance;
@@ -51,11 +51,14 @@ export default function ProductCard({ fragrance, index = 0 }: ProductCardProps) 
         <motion.div
           animate={{ scale: hovered ? 1.05 : 1, y: hovered ? -8 : 0 }}
           transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+          className="absolute inset-0"
         >
-          <BottleIllustration
-            size="lg"
-            accentColor={fragrance.accentColor}
-            sublabel={fragrance.name.toUpperCase()}
+          <Image
+            src={fragrance.image}
+            alt={fragrance.name}
+            fill
+            className="object-cover object-center"
+            sizes="(max-width: 768px) 50vw, 20vw"
           />
         </motion.div>
 

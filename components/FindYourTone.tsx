@@ -3,25 +3,15 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowRight } from "lucide-react";
+import Image from "next/image";
 import { tones } from "@/lib/fragrances";
 import Link from "next/link";
 
-const toneBgs: Record<string, string> = {
-  "warm-musky":
-    "radial-gradient(ellipse 80% 80% at 50% 50%, #5c3d22 0%, #3d2b1f 40%, #1a0e05 100%)",
-  "floral-soft":
-    "radial-gradient(ellipse 80% 80% at 50% 50%, #4a2d40 0%, #2e1f2a 40%, #160c13 100%)",
-  "fresh-citrus":
-    "radial-gradient(ellipse 80% 80% at 50% 50%, #243d2e 0%, #1a2820 40%, #080f0b 100%)",
-  "woody-earthy":
-    "radial-gradient(ellipse 80% 80% at 50% 50%, #2e2a1e 0%, #1c1a14 40%, #0a0905 100%)",
-};
-
-const tonePatterns: Record<string, { icon: string; particles: string[] }> = {
-  "warm-musky": { icon: "◈", particles: ["✦", "◆", "⬥"] },
-  "floral-soft": { icon: "❋", particles: ["✿", "⊹", "✦"] },
-  "fresh-citrus": { icon: "◎", particles: ["⊹", "✦", "◌"] },
-  "woody-earthy": { icon: "⬡", particles: ["◆", "◈", "⬥"] },
+const toneImages: Record<string, string> = {
+  "warm-musky": "/tone-warm-musky.png",
+  "floral-soft": "/tone-floral-soft.png",
+  "fresh-citrus": "/tone-fresh-citrus.png",
+  "woody-earthy": "/tone-woody-earthy.png",
 };
 
 export default function FindYourTone() {
@@ -50,10 +40,9 @@ export default function FindYourTone() {
         </motion.div>
 
         {/* Tone cards grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-px bg-white/5">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-0">
           {tones.map((tone, i) => {
             const isActive = active === tone.id;
-            const pattern = tonePatterns[tone.id];
 
             return (
               <motion.div
@@ -61,83 +50,81 @@ export default function FindYourTone() {
                 initial={{ opacity: 0 }}
                 whileInView={{ opacity: 1 }}
                 viewport={{ once: true }}
-                transition={{ delay: i * 0.1, duration: 0.6 }}
+                transition={{ delay: i * 0.1, duration: 0.7 }}
                 onHoverStart={() => setActive(tone.id)}
                 onHoverEnd={() => setActive(null)}
-                className="relative overflow-hidden cursor-pointer group"
-                style={{ minHeight: "420px" }}
+                className="relative overflow-hidden cursor-pointer"
+                style={{ minHeight: "520px" }}
               >
-                {/* Background */}
+                {/* Background image */}
+                <motion.div
+                  className="absolute inset-0"
+                  animate={{ scale: isActive ? 1.08 : 1 }}
+                  transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                >
+                  <Image
+                    src={toneImages[tone.id]}
+                    alt={tone.label}
+                    fill
+                    className="object-cover object-center"
+                    sizes="(max-width: 768px) 100vw, 25vw"
+                  />
+                </motion.div>
+
+                {/* Dark overlay — lightens on hover */}
                 <motion.div
                   className="absolute inset-0"
                   animate={{
-                    background: isActive ? toneBgs[tone.id] : "linear-gradient(180deg, #0f0f0f 0%, #0a0a0a 100%)",
+                    background: isActive
+                      ? "linear-gradient(to top, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.25) 50%, rgba(0,0,0,0.15) 100%)"
+                      : "linear-gradient(to top, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.65) 50%, rgba(0,0,0,0.55) 100%)",
                   }}
                   transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
                 />
 
-                {/* Texture overlay */}
-                <div className="absolute inset-0 opacity-10"
-                  style={{
-                    backgroundImage: "url(\"data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M0 40L40 0H20L0 20M40 40V20L20 40'/%3E%3C/g%3E%3C/svg%3E\")",
+                {/* Accent colour tint on hover */}
+                <motion.div
+                  className="absolute inset-0 pointer-events-none"
+                  animate={{
+                    opacity: isActive ? 0.12 : 0,
+                    background: `radial-gradient(ellipse 80% 60% at 50% 100%, ${tone.accentColor} 0%, transparent 70%)`,
                   }}
+                  transition={{ duration: 0.6 }}
                 />
 
-                {/* Decorative particles */}
-                <AnimatePresence>
-                  {isActive && pattern.particles.map((p, pi) => (
-                    <motion.span
-                      key={pi}
-                      initial={{ opacity: 0, scale: 0 }}
-                      animate={{ opacity: 0.2, scale: 1 }}
-                      exit={{ opacity: 0, scale: 0 }}
-                      transition={{ delay: pi * 0.08, duration: 0.4 }}
-                      className="absolute text-2xl pointer-events-none"
-                      style={{
-                        color: tone.accentColor,
-                        top: `${20 + pi * 25}%`,
-                        right: `${10 + pi * 8}%`,
-                      }}
-                    >
-                      {p}
-                    </motion.span>
-                  ))}
-                </AnimatePresence>
-
-                {/* Border */}
+                {/* Thin top border accent */}
                 <motion.div
-                  className="absolute inset-0 border"
-                  animate={{
-                    borderColor: isActive ? `${tone.accentColor}40` : "rgba(255,255,255,0.04)",
-                  }}
+                  className="absolute top-0 left-0 right-0 h-px"
+                  animate={{ background: isActive ? `${tone.accentColor}` : "rgba(255,255,255,0.08)" }}
                   transition={{ duration: 0.5 }}
                 />
 
                 {/* Content */}
-                <div className="relative z-10 p-8 h-full flex flex-col justify-between" style={{ minHeight: "420px" }}>
-                  {/* Top */}
+                <div className="relative z-10 p-8 h-full flex flex-col justify-between" style={{ minHeight: "520px" }}>
+                  {/* Top label */}
                   <div>
-                    <motion.span
-                      animate={{ color: isActive ? tone.accentColor : "rgba(245,240,232,0.2)", scale: isActive ? 1.2 : 1 }}
+                    <motion.p
+                      animate={{ color: isActive ? tone.accentColor : "rgba(245,240,232,0.35)", y: isActive ? 0 : 0 }}
                       transition={{ duration: 0.4 }}
-                      className="text-3xl block mb-6"
-                      style={{ display: "block" }}
+                      className="text-[9px] tracking-[0.35em] uppercase mb-5 font-medium"
                     >
-                      {pattern.icon}
-                    </motion.span>
+                      {`0${i + 1}`}
+                    </motion.p>
 
-                    <h3
-                      className="font-serif text-2xl lg:text-3xl font-light mb-3 transition-colors duration-500"
+                    <motion.h3
+                      animate={{ y: isActive ? -4 : 0 }}
+                      transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                      className="font-serif text-2xl lg:text-3xl font-light mb-3"
                       style={{
                         fontFamily: "Cormorant Garamond, serif",
-                        color: isActive ? tone.textAccent : "#f5f0e8",
+                        color: isActive ? "#f5f0e8" : "rgba(245,240,232,0.85)",
                       }}
                     >
                       {tone.label}
-                    </h3>
+                    </motion.h3>
 
                     <motion.p
-                      animate={{ opacity: isActive ? 0.7 : 0.35, height: isActive ? "auto" : "auto" }}
+                      animate={{ opacity: isActive ? 0.65 : 0.35 }}
                       transition={{ duration: 0.4 }}
                       className="text-xs leading-relaxed text-[#f5f0e8]"
                       style={{ maxWidth: "200px" }}
@@ -146,15 +133,15 @@ export default function FindYourTone() {
                     </motion.p>
                   </div>
 
-                  {/* Notes + CTA — revealed on hover */}
+                  {/* Bottom: notes + CTA revealed on hover */}
                   <div>
                     <AnimatePresence>
                       {isActive && (
                         <motion.div
-                          initial={{ opacity: 0, y: 15 }}
+                          initial={{ opacity: 0, y: 16 }}
                           animate={{ opacity: 1, y: 0 }}
-                          exit={{ opacity: 0, y: 10 }}
-                          transition={{ duration: 0.4, delay: 0.1 }}
+                          exit={{ opacity: 0, y: 8 }}
+                          transition={{ duration: 0.45, delay: 0.05 }}
                         >
                           <p className="text-[9px] tracking-[0.3em] uppercase mb-3" style={{ color: tone.accentColor }}>
                             Key Notes
@@ -163,8 +150,12 @@ export default function FindYourTone() {
                             {tone.keyNotes.map((note) => (
                               <span
                                 key={note}
-                                className="text-[9px] tracking-wider uppercase border px-2.5 py-1"
-                                style={{ borderColor: `${tone.accentColor}40`, color: `${tone.accentColor}cc` }}
+                                className="text-[9px] tracking-wider uppercase border px-2.5 py-1 backdrop-blur-sm"
+                                style={{
+                                  borderColor: `${tone.accentColor}50`,
+                                  color: `${tone.accentColor}dd`,
+                                  background: "rgba(0,0,0,0.25)",
+                                }}
                               >
                                 {note}
                               </span>
@@ -174,13 +165,19 @@ export default function FindYourTone() {
                       )}
                     </AnimatePresence>
 
-                    <div className="pt-4 border-t border-white/5">
+                    <div className="pt-4 border-t border-white/10">
                       <Link
                         href={`/shop?tone=${tone.id}`}
-                        className="flex items-center gap-2 text-[9px] tracking-[0.25em] uppercase transition-colors duration-300"
+                        className="flex items-center gap-2 text-[9px] tracking-[0.25em] uppercase transition-colors duration-300 group"
                         style={{ color: isActive ? tone.accentColor : "rgba(245,240,232,0.3)" }}
                       >
-                        Explore <ArrowRight size={10} />
+                        Explore
+                        <motion.span
+                          animate={{ x: isActive ? 4 : 0 }}
+                          transition={{ duration: 0.3 }}
+                        >
+                          <ArrowRight size={10} />
+                        </motion.span>
                       </Link>
                     </div>
                   </div>

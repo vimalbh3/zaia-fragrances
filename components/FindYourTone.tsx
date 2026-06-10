@@ -71,13 +71,17 @@ export default function FindYourTone() {
                   />
                 </motion.div>
 
-                {/* Dark overlay — lightens on hover */}
+                {/* Dark overlay — lightens on hover (floral stays darker for legibility) */}
                 <motion.div
                   className="absolute inset-0"
                   animate={{
                     background: isActive
-                      ? "linear-gradient(to top, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.25) 50%, rgba(0,0,0,0.15) 100%)"
-                      : "linear-gradient(to top, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.65) 50%, rgba(0,0,0,0.55) 100%)",
+                      ? tone.id === "floral-soft"
+                        ? "linear-gradient(to top, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.72) 50%, rgba(0,0,0,0.58) 100%)"
+                        : "linear-gradient(to top, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.25) 50%, rgba(0,0,0,0.15) 100%)"
+                      : tone.id === "floral-soft"
+                        ? "linear-gradient(to top, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.70) 50%, rgba(0,0,0,0.62) 100%)"
+                        : "linear-gradient(to top, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.65) 50%, rgba(0,0,0,0.55) 100%)",
                   }}
                   transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
                 />
@@ -100,7 +104,13 @@ export default function FindYourTone() {
                 />
 
                 {/* Content */}
-                <div className="relative z-10 p-8 h-full flex flex-col justify-between" style={{ minHeight: "520px" }}>
+                <div
+                  className="relative z-10 p-8 h-full flex flex-col justify-between"
+                  style={{
+                    minHeight: "520px",
+                    textShadow: tone.id === "floral-soft" ? "0 1px 8px rgba(0,0,0,0.8)" : "none",
+                  }}
+                >
                   {/* Top label */}
                   <div>
                     <motion.p

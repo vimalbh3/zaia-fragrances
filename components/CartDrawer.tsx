@@ -2,6 +2,7 @@
 
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Trash2, ArrowRight } from "lucide-react";
+import Image from "next/image";
 import { useStore } from "@/lib/store";
 import Link from "next/link";
 
@@ -65,9 +66,15 @@ export default function CartDrawer() {
                       exit={{ opacity: 0, x: 20 }}
                       className="flex gap-4 pb-6 border-b border-white/5"
                     >
-                      {/* Bottle placeholder */}
-                      <div className="w-16 h-20 bg-[#1a1a1a] border border-white/10 flex items-center justify-center flex-shrink-0">
-                        <div className="w-6 h-12 bg-gradient-to-b from-[#2a2a2a] to-[#1a1a1a] rounded-sm" />
+                      {/* Bottle image */}
+                      <div className="w-16 h-20 bg-[#111] border border-white/8 relative flex-shrink-0 overflow-hidden">
+                        <Image
+                          src={item.image}
+                          alt={item.name}
+                          fill
+                          className="object-cover object-center"
+                          sizes="64px"
+                        />
                       </div>
                       <div className="flex-1 min-w-0">
                         <p className="font-serif text-lg font-light" style={{ fontFamily: "Cormorant Garamond, serif" }}>

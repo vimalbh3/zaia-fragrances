@@ -21,7 +21,7 @@ function ProductContent({ slug }: { slug: string }) {
   const { addToCart } = useStore();
 
   const handleAdd = () => {
-    addToCart({ slug: fragrance.slug, name: fragrance.name, price: fragrance.price, size });
+    addToCart({ slug: fragrance.slug, name: fragrance.name, price: fragrance.price, size, image: fragrance.image });
     setAdded(true);
     setTimeout(() => setAdded(false), 2500);
   };

@@ -20,7 +20,7 @@ export default function ProductCard({ fragrance, index = 0 }: ProductCardProps) 
 
   const handleAdd = (e: React.MouseEvent) => {
     e.preventDefault();
-    addToCart({ slug: fragrance.slug, name: fragrance.name, price: fragrance.price, size: "100ml" });
+    addToCart({ slug: fragrance.slug, name: fragrance.name, price: fragrance.price, size: "100ml", image: fragrance.image });
     setAdded(true);
     setTimeout(() => setAdded(false), 2000);
   };

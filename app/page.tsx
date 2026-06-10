@@ -7,6 +7,7 @@ import Philosophy from "@/components/Philosophy";
 import BenefitsStrip from "@/components/BenefitsStrip";
 import Newsletter from "@/components/Newsletter";
 import Footer from "@/components/Footer";
+import ScentQuiz from "@/components/ScentQuiz";
 
 export default function Home() {
   return (
@@ -21,6 +22,7 @@ export default function Home() {
         <Newsletter />
       </main>
       <Footer />
+      <ScentQuiz />
     </StoreProvider>
   );
 }

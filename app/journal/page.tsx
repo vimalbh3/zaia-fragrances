@@ -1,4 +1,3 @@
-import { StoreProvider } from "@/lib/store";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import Link from "next/link";
@@ -36,7 +35,7 @@ const posts = [
 
 export default function JournalPage() {
   return (
-    <StoreProvider>
+    <>
       <Navigation />
       <main className="min-h-screen bg-[#0d0d0d] pt-24">
         <div className="max-w-[1400px] mx-auto px-6 lg:px-12 py-16 border-b border-white/5">
@@ -77,6 +76,6 @@ export default function JournalPage() {
         </div>
       </main>
       <Footer />
-    </StoreProvider>
+    </>
   );
 }

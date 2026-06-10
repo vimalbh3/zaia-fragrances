@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { StoreProvider } from "@/lib/store";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import ProductCard from "@/components/ProductCard";
@@ -78,9 +77,5 @@ function ShopContent() {
 }
 
 export default function ShopPage() {
-  return (
-    <StoreProvider>
-      <ShopContent />
-    </StoreProvider>
-  );
+  return <ShopContent />;
 }

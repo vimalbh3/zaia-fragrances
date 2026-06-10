@@ -4,7 +4,7 @@ import { useState, use } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronDown, ArrowLeft } from "lucide-react";
 import Link from "next/link";
-import { StoreProvider, useStore } from "@/lib/store";
+import { useStore } from "@/lib/store";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import Image from "next/image";
@@ -237,9 +237,5 @@ function ProductContent({ slug }: { slug: string }) {
 
 export default function ProductPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = use(params);
-  return (
-    <StoreProvider>
-      <ProductContent slug={slug} />
-    </StoreProvider>
-  );
+  return <ProductContent slug={slug} />;
 }

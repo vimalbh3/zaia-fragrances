@@ -9,7 +9,7 @@ import {
   ArrowLeft, ArrowRight, Shield, Truck, Gift,
   CreditCard, ChevronDown, Check, Plus
 } from "lucide-react";
-import { StoreProvider, useStore } from "@/lib/store";
+import { useStore } from "@/lib/store";
 import { fragrances } from "@/lib/fragrances";
 
 // ─── Progress Bar ────────────────────────────────────────────────────────────
@@ -579,9 +579,5 @@ function CheckoutContent() {
 }
 
 export default function CheckoutPage() {
-  return (
-    <StoreProvider>
-      <CheckoutContent />
-    </StoreProvider>
-  );
+  return <CheckoutContent />;
 }

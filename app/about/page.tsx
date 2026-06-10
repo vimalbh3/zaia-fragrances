@@ -1,10 +1,9 @@
-import { StoreProvider } from "@/lib/store";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 
 export default function AboutPage() {
   return (
-    <StoreProvider>
+    <>
       <Navigation />
       <main className="min-h-screen bg-[#0d0d0d] pt-24">
         {/* Hero */}
@@ -65,6 +64,6 @@ export default function AboutPage() {
         </div>
       </main>
       <Footer />
-    </StoreProvider>
+    </>
   );
 }

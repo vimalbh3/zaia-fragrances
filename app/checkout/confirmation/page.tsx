@@ -4,7 +4,6 @@ import { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { Check, Package, ArrowRight, Gift } from "lucide-react";
-import { StoreProvider } from "@/lib/store";
 
 function ConfirmationContent() {
   const orderNumber = useRef(`ZA-${Math.floor(10000 + Math.random() * 90000)}`);
@@ -145,9 +144,5 @@ function ConfirmationContent() {
 }
 
 export default function ConfirmationPage() {
-  return (
-    <StoreProvider>
-      <ConfirmationContent />
-    </StoreProvider>
-  );
+  return <ConfirmationContent />;
 }

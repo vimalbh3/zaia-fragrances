@@ -21,13 +21,28 @@ export default function AboutPage() {
           <div className="grid lg:grid-cols-2 gap-20">
             <div>
               <p className="text-sm text-[#f5f0e8]/60 leading-relaxed mb-6">
-                ZAIA was founded on a single belief: that fragrance is one of the most powerful and intimate forms of self-expression. In a world saturated with mass-produced scents, we chose to do things differently.
+                ZAIA was founded on a simple belief: fragrance should feel personal.
               </p>
               <p className="text-sm text-[#f5f0e8]/40 leading-relaxed mb-6">
-                Every ZAIA fragrance is crafted in small batches, using ingredients selected for quality and provenance. We work with master perfumers who share our commitment to craft and restraint.
+                In a world of trends, celebrity endorsements and fragrances designed to appeal to everyone, we found ourselves searching for something quieter. Something more considered. Something that felt like an extension of identity rather than an accessory.
               </p>
-              <p className="text-sm text-[#f5f0e8]/40 leading-relaxed">
-                We don&apos;t make fragrances for men or women. We make fragrances for people — for moments, memories, and moods. Scent has no gender.
+              <p className="text-sm text-[#f5f0e8]/40 leading-relaxed mb-6">
+                Fragrance has the power to transport us. A single note can bring back a place, a person, a moment in time. It can evoke confidence before a meeting, comfort on a difficult day, or nostalgia for a memory long forgotten. Few things connect so deeply to emotion.
+              </p>
+              <p className="text-sm text-[#f5f0e8]/40 leading-relaxed mb-6">
+                That connection sits at the heart of everything we create.
+              </p>
+              <p className="text-sm text-[#f5f0e8]/40 leading-relaxed mb-6">
+                Every ZAIA fragrance is crafted in small batches using carefully sourced ingredients selected for their quality, character and provenance. We collaborate with master perfumers who share our belief that true luxury lies in restraint, not excess.
+              </p>
+              <p className="text-sm text-[#f5f0e8]/40 leading-relaxed mb-6">
+                We are not interested in creating hundreds of fragrances. We focus on creating a collection that feels intentional, refined and timeless.
+              </p>
+              <p className="text-sm text-[#f5f0e8]/40 leading-relaxed mb-6">
+                We don&apos;t create fragrances for men or women. We create fragrances for people. For moments, memories and moods. Because scent is deeply personal, and personal expression should never be limited by labels.
+              </p>
+              <p className="text-sm text-[#f5f0e8]/60 leading-relaxed">
+                ZAIA is an exploration of emotion through fragrance. A collection of scents designed to become part of your story.
               </p>
             </div>
             <div>

@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
+import Image from "next/image";
 
 export default function Philosophy() {
   return (
@@ -36,48 +37,28 @@ export default function Philosophy() {
             </Link>
           </motion.div>
 
-          {/* Right: atmospheric visual */}
+          {/* Right: philosophy image */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
+            initial={{ opacity: 0, scale: 0.97 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
-            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-            className="relative aspect-[4/3] bg-[#0a0a0a] border border-white/5 overflow-hidden"
+            transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+            className="relative aspect-[4/3] overflow-hidden"
           >
-            {/* Abstract atmospheric layers */}
+            <Image
+              src="/philosophy-cliff.png"
+              alt="A solitary figure on a cliff at golden hour"
+              fill
+              className="object-cover object-center"
+              sizes="(max-width: 1024px) 100vw, 50vw"
+            />
+            {/* Subtle dark vignette to blend with site bg */}
             <div
-              className="absolute inset-0"
+              className="absolute inset-0 pointer-events-none"
               style={{
-                background: "radial-gradient(ellipse 70% 60% at 30% 60%, rgba(201,169,110,0.06) 0%, transparent 60%), radial-gradient(ellipse 50% 40% at 80% 30%, rgba(201,169,110,0.04) 0%, transparent 50%)",
+                background: "linear-gradient(to right, rgba(13,13,13,0.35) 0%, transparent 40%), linear-gradient(to top, rgba(13,13,13,0.3) 0%, transparent 40%)",
               }}
             />
-            {/* Horizon line */}
-            <div className="absolute bottom-1/3 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
-            {/* Vertical beam */}
-            <div
-              className="absolute top-0 bottom-0 left-1/3 w-px"
-              style={{ background: "linear-gradient(to bottom, transparent, rgba(201,169,110,0.15), transparent)" }}
-            />
-            {/* Text overlay */}
-            <div className="absolute inset-0 flex flex-col justify-end p-8">
-              <p
-                className="font-serif text-7xl font-light text-[#f5f0e8]/[0.04] leading-none select-none"
-                style={{ fontFamily: "Cormorant Garamond, serif" }}
-              >
-                ZAIA
-              </p>
-            </div>
-            <div className="absolute inset-0 flex items-center justify-center">
-              <div className="text-center">
-                <p
-                  className="font-serif text-3xl font-light text-[#f5f0e8]/20 tracking-widest"
-                  style={{ fontFamily: "Cormorant Garamond, serif" }}
-                >
-                  Scent is memory.
-                </p>
-                <div className="w-12 h-px bg-[#c9a96e]/30 mx-auto mt-4" />
-              </div>
-            </div>
           </motion.div>
         </div>
       </div>

@@ -46,13 +46,11 @@ export default function AboutPage() {
               </p>
             </div>
             <div>
-              <div className="relative aspect-square overflow-hidden">
-                <img
-                  src="/About_page_header.png"
-                  alt="ZAIA — About"
-                  className="w-full h-full object-cover object-center"
-                />
-              </div>
+              <img
+                src="/About_page_header.png"
+                alt="ZAIA — About"
+                className="w-full h-auto"
+              />
             </div>
           </div>
 

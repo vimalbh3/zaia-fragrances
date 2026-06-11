@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useState, Suspense } from "react";
+import { useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
@@ -8,7 +9,9 @@ import ProductCard from "@/components/ProductCard";
 import { fragrances, tones } from "@/lib/fragrances";
 
 function ShopContent() {
-  const [activeTone, setActiveTone] = useState<string | null>(null);
+  const searchParams = useSearchParams();
+  const initialTone = searchParams.get("tone");
+  const [activeTone, setActiveTone] = useState<string | null>(initialTone);
 
   const filtered = activeTone
     ? fragrances.filter((f) => f.tone === activeTone)
@@ -77,5 +80,9 @@ function ShopContent() {
 }
 
 export default function ShopPage() {
-  return <ShopContent />;
+  return (
+    <Suspense fallback={null}>
+      <ShopContent />
+    </Suspense>
+  );
 }

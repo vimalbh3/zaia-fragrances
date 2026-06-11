@@ -45,12 +45,12 @@ export default function AboutPage() {
           {/* Values */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-white/5 mt-24">
             {[
-              { title: "Quality", body: "Only the finest raw materials. No shortcuts." },
-              { title: "Transparency", body: "We publish our full ingredient lists. No hidden chemicals." },
-              { title: "Integrity", body: "Cruelty-free. Ethically sourced. Thoughtfully made." },
+              { title: "Quality", body: "Only the finest raw materials. No shortcuts.", icon: "/ZAIA_Jasmine_Stem_Quality.svg" },
+              { title: "Transparency", body: "We publish our full ingredient lists. No hidden chemicals.", icon: "/ZAIA_Crystal_Perfume_Droplet_Transparency.svg" },
+              { title: "Integrity", body: "Cruelty-free. Ethically sourced. Thoughtfully made.", icon: "/ZAIA_Gold_Scales_Integrity.svg" },
             ].map((v) => (
               <div key={v.title} className="bg-[#0a0a0a] p-10">
-                <p className="text-[9px] tracking-[0.3em] uppercase text-[#c9a96e] mb-4">—</p>
+                <img src={v.icon} alt={v.title} className="w-10 h-10 mb-6 opacity-80" />
                 <h3
                   className="font-serif text-2xl font-light mb-4"
                   style={{ fontFamily: "Cormorant Garamond, serif" }}

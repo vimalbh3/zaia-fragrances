@@ -46,13 +46,12 @@ export default function AboutPage() {
               </p>
             </div>
             <div>
-              <div className="aspect-square bg-[#0a0a0a] border border-white/5 flex items-center justify-center">
-                <p
-                  className="font-serif text-5xl font-light text-[#f5f0e8]/[0.06] tracking-[0.3em]"
-                  style={{ fontFamily: "Cormorant Garamond, serif" }}
-                >
-                  ZAIA
-                </p>
+              <div className="relative aspect-square overflow-hidden">
+                <img
+                  src="/About_page_header.png"
+                  alt="ZAIA — About"
+                  className="w-full h-full object-cover object-center"
+                />
               </div>
             </div>
           </div>

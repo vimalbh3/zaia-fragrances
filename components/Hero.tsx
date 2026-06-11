@@ -81,21 +81,6 @@ export default function Hero() {
           </motion.div>
 
           {/* Decorative stat */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1.1, duration: 1 }}
-            className="flex gap-10 mt-16 pt-12 border-t border-white/5"
-          >
-            {[["5", "Fragrances"], ["100ml", "Eau de Parfum"], ["£140", "Per Bottle"]].map(([n, l]) => (
-              <div key={l}>
-                <p className="font-serif text-2xl font-light text-[#c9a96e]" style={{ fontFamily: "Cormorant Garamond, serif" }}>
-                  {n}
-                </p>
-                <p className="text-[10px] tracking-widest uppercase text-[#f5f0e8]/30 mt-1">{l}</p>
-              </div>
-            ))}
-          </motion.div>
         </div>
 
         {/* Right: bottle */}

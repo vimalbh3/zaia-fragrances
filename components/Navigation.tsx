@@ -80,9 +80,9 @@ export default function Navigation() {
             >
               <Search size={18} />
             </button>
-            <button className="gold-link text-[#f5f0e8]/70 hover:text-[#f5f0e8] transition-colors hidden lg:block">
+            <Link href="/account" className="gold-link text-[#f5f0e8]/70 hover:text-[#f5f0e8] transition-colors hidden lg:block">
               Account
-            </button>
+            </Link>
             <button
               onClick={() => setCartOpen(true)}
               className="gold-link text-[#f5f0e8]/70 hover:text-[#f5f0e8] transition-colors flex items-center gap-1"
@@ -138,7 +138,7 @@ export default function Navigation() {
               ))}
             </nav>
             <div className="mt-auto flex gap-6">
-              <button className="gold-link text-[#f5f0e8]/50">Account</button>
+              <Link href="/account" onClick={() => setMobileOpen(false)} className="gold-link text-[#f5f0e8]/50">Account</Link>
               <button onClick={() => { setSearchOpen(true); setMobileOpen(false); }} className="gold-link text-[#f5f0e8]/50">Search</button>
             </div>
           </motion.div>

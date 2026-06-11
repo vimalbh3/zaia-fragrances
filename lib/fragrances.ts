@@ -4,7 +4,7 @@ export interface Fragrance {
   subtitle: string;
   tone: "warm-musky" | "floral-soft" | "fresh-citrus" | "woody-earthy";
   toneLabel: string;
-  price: number;
+  prices: { "50ml": number; "100ml": number };
   notes: { top: string[]; heart: string[]; base: string[] };
   description: string;
   keyNotes: string;
@@ -20,7 +20,7 @@ export const fragrances: Fragrance[] = [
     subtitle: "A smouldering amber wrapped in smoke and vanilla.",
     tone: "warm-musky",
     toneLabel: "Warm & Musky",
-    price: 140,
+    prices: { "50ml": 25, "100ml": 45 },
     notes: {
       top: ["Black pepper", "Saffron", "Smoke"],
       heart: ["Amber resin", "Labdanum", "Rose absolute"],
@@ -39,7 +39,7 @@ export const fragrances: Fragrance[] = [
     subtitle: "Sandalwood meets soft iris in a whisper of musk.",
     tone: "woody-earthy",
     toneLabel: "Woody & Earthy",
-    price: 140,
+    prices: { "50ml": 25, "100ml": 45 },
     notes: {
       top: ["Cardamom", "Pink pepper", "Bergamot"],
       heart: ["Iris root", "Violet", "Orris butter"],
@@ -58,7 +58,7 @@ export const fragrances: Fragrance[] = [
     subtitle: "Jasmine blossoms in the dark, kissed by patchouli.",
     tone: "floral-soft",
     toneLabel: "Floral & Soft",
-    price: 140,
+    prices: { "50ml": 25, "100ml": 45 },
     notes: {
       top: ["Neroli", "Petitgrain", "Green leaves"],
       heart: ["Jasmine absolute", "Tuberose", "Ambrox"],
@@ -77,7 +77,7 @@ export const fragrances: Fragrance[] = [
     subtitle: "Sun-drenched bergamot dissolving into white tea.",
     tone: "fresh-citrus",
     toneLabel: "Fresh & Citrus",
-    price: 140,
+    prices: { "50ml": 25, "100ml": 45 },
     notes: {
       top: ["Bergamot", "Lemon zest", "Grapefruit"],
       heart: ["Neroli", "White tea", "Jasmine petals"],
@@ -96,7 +96,7 @@ export const fragrances: Fragrance[] = [
     subtitle: "Ancient oud shadows lean leather and incense.",
     tone: "woody-earthy",
     toneLabel: "Woody & Earthy",
-    price: 140,
+    prices: { "50ml": 25, "100ml": 45 },
     notes: {
       top: ["Incense", "Black cumin", "Elemi"],
       heart: ["Oud wood", "Leather accord", "Suede"],

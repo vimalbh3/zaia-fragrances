@@ -20,7 +20,7 @@ export default function ProductCard({ fragrance, index = 0 }: ProductCardProps) 
 
   const handleAdd = (e: React.MouseEvent) => {
     e.preventDefault();
-    addToCart({ slug: fragrance.slug, name: fragrance.name, price: fragrance.price, size: "100ml", image: fragrance.image });
+    addToCart({ slug: fragrance.slug, name: fragrance.name, price: fragrance.prices["100ml"], size: "100ml", image: fragrance.image });
     setAdded(true);
     setTimeout(() => setAdded(false), 2000);
   };
@@ -96,7 +96,7 @@ export default function ProductCard({ fragrance, index = 0 }: ProductCardProps) 
         </Link>
         <p className="text-xs text-[#f5f0e8]/40 tracking-wider">{fragrance.keyNotes}</p>
         <div className="flex items-center justify-between mt-3">
-          <p className="text-sm text-[#f5f0e8]/80">£{fragrance.price}</p>
+          <p className="text-sm text-[#f5f0e8]/80">from £{fragrance.prices["50ml"]}</p>
           <motion.button
             onClick={handleAdd}
             whileTap={{ scale: 0.95 }}

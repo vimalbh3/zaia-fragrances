@@ -68,7 +68,7 @@ export default function SearchOverlay() {
                       </p>
                       <p className="text-xs text-[#f5f0e8]/40 tracking-wider uppercase mt-0.5">{f.keyNotes}</p>
                     </div>
-                    <p className="ml-auto text-[#c9a96e] text-sm">£{f.price}</p>
+                    <p className="ml-auto text-[#c9a96e] text-sm">from £{f.prices["50ml"]}</p>
                   </Link>
                 ))}
               </div>

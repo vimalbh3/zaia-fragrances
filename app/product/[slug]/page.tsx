@@ -21,7 +21,7 @@ function ProductContent({ slug }: { slug: string }) {
   const { addToCart } = useStore();
 
   const handleAdd = () => {
-    addToCart({ slug: fragrance.slug, name: fragrance.name, price: fragrance.price, size, image: fragrance.image });
+    addToCart({ slug: fragrance.slug, name: fragrance.name, price: fragrance.prices[size as "50ml" | "100ml"], size, image: fragrance.image });
     setAdded(true);
     setTimeout(() => setAdded(false), 2500);
   };
@@ -109,7 +109,7 @@ function ProductContent({ slug }: { slug: string }) {
                 {fragrance.subtitle}
               </p>
               <p className="font-serif text-3xl font-light text-[#c9a96e] mb-8" style={{ fontFamily: "Cormorant Garamond, serif" }}>
-                £{fragrance.price}
+                £{fragrance.prices[size as "50ml" | "100ml"]}
               </p>
 
               {/* Notes pyramid */}
@@ -133,7 +133,7 @@ function ProductContent({ slug }: { slug: string }) {
               <div className="mb-6">
                 <p className="text-[9px] tracking-[0.3em] uppercase text-[#f5f0e8]/40 mb-3">Size</p>
                 <div className="flex gap-3">
-                  {["50ml", "100ml"].map((s) => (
+                  {(["50ml", "100ml"] as const).map((s) => (
                     <button
                       key={s}
                       onClick={() => setSize(s)}
@@ -143,7 +143,7 @@ function ProductContent({ slug }: { slug: string }) {
                           : "border-white/10 text-[#f5f0e8]/40 hover:border-white/25"
                       }`}
                     >
-                      {s}
+                      {s} · £{fragrance.prices[s]}
                     </button>
                   ))}
                 </div>
@@ -162,7 +162,7 @@ function ProductContent({ slug }: { slug: string }) {
                     </motion.span>
                   ) : (
                     <motion.span key="add" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-                      Add to Cart — £{fragrance.price}
+                      Add to Cart — £{fragrance.prices[size as "50ml" | "100ml"]}
                     </motion.span>
                   )}
                 </AnimatePresence>

@@ -31,7 +31,7 @@ export const fragrances: Fragrance[] = [
     keyNotes: "Amber, Smoke, Vanilla",
     bottleColor: "#1a1a1a",
     accentColor: "#c9a96e",
-    image: "/bottle-noir-ambre.png",
+    image: "/bottle-noir-ambre-v2.png",
   },
   {
     slug: "santal-veil",

@@ -106,7 +106,7 @@ export default function Hero() {
               className="relative w-full h-full"
             >
               <Image
-                src="/bottle-noir-ambre.png"
+                src="/bottle-noir-ambre-v2.png"
                 alt="Noir Ambre"
                 fill
                 className="object-contain drop-shadow-2xl"

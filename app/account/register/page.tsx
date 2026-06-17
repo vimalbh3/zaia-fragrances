@@ -67,7 +67,7 @@ export default function RegisterPage() {
         transition={{ duration: 1 }}
         className="hidden lg:block lg:w-1/2 relative overflow-hidden"
       >
-        <Image src="/bottle-noir-ambre.png" alt="ZAIA" fill className="object-cover object-center scale-110" sizes="50vw" />
+        <Image src="/bottle-noir-ambre-v2.png" alt="ZAIA" fill className="object-cover object-center scale-110" sizes="50vw" />
         <div className="absolute inset-0" style={{ background: "linear-gradient(135deg, rgba(13,13,13,0.3) 0%, rgba(13,13,13,0.7) 100%)" }} />
         <div className="absolute inset-0 flex flex-col justify-end p-16">
           <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.6, duration: 1 }}>

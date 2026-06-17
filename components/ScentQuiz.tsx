@@ -66,7 +66,7 @@ const results: Record<Family, {
     slug: "noir-ambre",
     name: "Noir Ambre",
     toneLabel: "Warm & Musky",
-    image: "/bottle-noir-ambre.png",
+    image: "/bottle-noir-ambre-v2.png",
     headline: "You are drawn to warmth.",
     verse: "Smouldering amber, a veil of smoke, vanilla that lingers long after you've left the room. Noir Ambre is for those who leave an impression.",
     keyNotes: "Amber · Smoke · Vanilla",

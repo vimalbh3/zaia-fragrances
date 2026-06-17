@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ChevronDown, ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { useStore } from "@/lib/store";
+import { useCurrency } from "@/lib/currency";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import Image from "next/image";
@@ -19,6 +20,7 @@ function ProductContent({ slug }: { slug: string }) {
   const [openAccordion, setOpenAccordion] = useState<string | null>(null);
   const [added, setAdded] = useState(false);
   const { addToCart } = useStore();
+  const { formatPrice } = useCurrency();
 
   const handleAdd = () => {
     addToCart({ slug: fragrance.slug, name: fragrance.name, price: fragrance.prices[size as "50ml" | "100ml"], size, image: fragrance.image });
@@ -109,7 +111,7 @@ function ProductContent({ slug }: { slug: string }) {
                 {fragrance.subtitle}
               </p>
               <p className="font-serif text-3xl font-light text-[#c9a96e] mb-8" style={{ fontFamily: "Cormorant Garamond, serif" }}>
-                £{fragrance.prices[size as "50ml" | "100ml"]}
+                {formatPrice(fragrance.prices[size as "50ml" | "100ml"])}
               </p>
 
               {/* Notes pyramid */}
@@ -143,7 +145,7 @@ function ProductContent({ slug }: { slug: string }) {
                           : "border-white/10 text-[#f5f0e8]/40 hover:border-white/25"
                       }`}
                     >
-                      {s} · £{fragrance.prices[s]}
+                      {s} · {formatPrice(fragrance.prices[s])}
                     </button>
                   ))}
                 </div>

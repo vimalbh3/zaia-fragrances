@@ -131,8 +131,13 @@ function Dots({ current, total }: { current: number; total: number }) {
   );
 }
 
+interface ScentQuizProps {
+  forceOpen?: boolean;
+  onClose?: () => void;
+}
+
 // ─── Main component ────────────────────────────────────────────────────────────
-export default function ScentQuiz() {
+export default function ScentQuiz({ forceOpen, onClose }: ScentQuizProps = {}) {
   const [open, setOpen] = useState(false);
   const [triggered, setTriggered] = useState(false);
   const [phase, setPhase] = useState<"intro" | "quiz" | "result">("intro");
@@ -144,13 +149,22 @@ export default function ScentQuiz() {
   const [selectedOption, setSelectedOption] = useState<Family | null>(null);
   const { addToCart } = useStore();
 
+  // External force-open (e.g. from account page retake button)
+  useEffect(() => {
+    if (forceOpen) {
+      setOpen(true);
+      setPhase("intro");
+    }
+  }, [forceOpen]);
+
   const trigger = useCallback(() => {
-    if (triggered) return;
+    if (triggered || forceOpen) return;
     setTriggered(true);
     setOpen(true);
-  }, [triggered]);
+  }, [triggered, forceOpen]);
 
   useEffect(() => {
+    if (forceOpen) return; // don't set up auto-trigger when externally controlled
     // Timer: 12 seconds
     const timer = setTimeout(trigger, 12000);
 
@@ -164,7 +178,7 @@ export default function ScentQuiz() {
       clearTimeout(timer);
       document.removeEventListener("mouseleave", onMouseLeave);
     };
-  }, [trigger]);
+  }, [trigger, forceOpen]);
 
   // Compute dominant family from current scores
   const computeDominant = (s: Record<Family, number>): Family => {
@@ -181,7 +195,9 @@ export default function ScentQuiz() {
       if (currentQ < questions.length - 1) {
         setCurrentQ(q => q + 1);
       } else {
-        setDominantFamily(computeDominant(newScores));
+        const family = computeDominant(newScores);
+        setDominantFamily(family);
+        saveProfileToUser(family);
         setPhase("result");
       }
     }, 380);
@@ -195,7 +211,22 @@ export default function ScentQuiz() {
     setSelectedOption(null);
   };
 
-  const close = () => { setOpen(false); reset(); };
+  const close = () => {
+    setOpen(false);
+    reset();
+    onClose?.();
+  };
+
+  // Save scent profile to localStorage when result is determined
+  const saveProfileToUser = (family: Family) => {
+    if (typeof window === "undefined") return;
+    const raw = localStorage.getItem("zaia_user");
+    if (!raw) return;
+    try {
+      const user = JSON.parse(raw);
+      localStorage.setItem("zaia_user", JSON.stringify({ ...user, scentProfile: family }));
+    } catch {}
+  };
 
   const result = dominantFamily ? results[dominantFamily] : null;
 
@@ -473,7 +504,7 @@ export default function ScentQuiz() {
                             addToCart({
                               slug: result.slug,
                               name: result.name,
-                              price: 140,
+                              price: 45,
                               size: "100ml",
                               image: result.image,
                             });

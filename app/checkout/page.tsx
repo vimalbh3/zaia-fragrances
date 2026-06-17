@@ -505,8 +505,27 @@ function CheckoutContent() {
   const [step, setStep] = useState(1);
   const [customerData, setCustomerData] = useState<Record<string, string>>({});
   const [deliveryData, setDeliveryData] = useState<Record<string, string | number>>({});
-  const { cart, clearCart } = useStore();
+  const { cart, cartTotal, clearCart } = useStore();
   const router = useRouter();
+
+  const saveOrderToUser = (shippingCost: number) => {
+    if (typeof window === "undefined") return;
+    const raw = localStorage.getItem("zaia_user");
+    if (!raw) return;
+    try {
+      const user = JSON.parse(raw);
+      const total = cartTotal + shippingCost;
+      const newOrder = {
+        id: `ZA-${Math.floor(10000 + Math.random() * 90000)}`,
+        date: new Date().toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" }),
+        status: "Processing",
+        items: cart.map(item => `${item.name} ${item.size}`),
+        total,
+      };
+      const orders = Array.isArray(user.orders) ? user.orders : [];
+      localStorage.setItem("zaia_user", JSON.stringify({ ...user, orders: [newOrder, ...orders] }));
+    } catch {}
+  };
 
   if (cart.length === 0) {
     return (
@@ -560,6 +579,7 @@ function CheckoutContent() {
                   onBack={() => setStep(2)}
                   deliveryData={deliveryData}
                   onPlace={() => {
+                    saveOrderToUser(Number(deliveryData.shippingCost ?? 0));
                     clearCart();
                     router.push("/checkout/confirmation");
                   }}

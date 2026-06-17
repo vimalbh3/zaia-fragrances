@@ -67,15 +67,15 @@ export default function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.75, duration: 0.8 }}
-            className="flex items-center gap-6"
+            className="flex flex-col gap-4 sm:flex-row sm:items-center sm:gap-6"
           >
             <Link
               href="/shop"
-              className="border border-[#f5f0e8]/60 text-[#f5f0e8] text-xs tracking-[0.25em] uppercase px-8 py-4 hover:bg-[#f5f0e8] hover:text-[#0d0d0d] transition-all duration-400 relative group overflow-hidden"
+              className="border border-[#f5f0e8]/60 text-[#f5f0e8] text-xs tracking-[0.25em] uppercase px-6 py-3.5 sm:px-8 sm:py-4 hover:bg-[#f5f0e8] hover:text-[#0d0d0d] transition-all duration-400 relative group overflow-hidden text-center"
             >
               <span className="relative z-10">Discover the Collection</span>
             </Link>
-            <Link href="/about" className="gold-link text-[#f5f0e8]/50 hover:text-[#c9a96e]">
+            <Link href="/about" className="gold-link text-[#f5f0e8]/50 hover:text-[#c9a96e] text-center sm:text-left">
               Our Story
             </Link>
           </motion.div>

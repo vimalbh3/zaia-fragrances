@@ -11,8 +11,19 @@ import {
   Flame, Droplets, Leaf, Wind
 } from "lucide-react";
 import { fragrances } from "@/lib/fragrances";
+import { useStore } from "@/lib/store";
+import { useCurrency } from "@/lib/currency";
+import ScentQuiz from "@/components/ScentQuiz";
 
 // ─── Types ───────────────────────────────────────────────────────────────────
+
+interface OrderRecord {
+  id: string;
+  date: string;
+  status: string;
+  items: string[];
+  total: number;
+}
 
 interface UserData {
   firstName: string;
@@ -20,14 +31,11 @@ interface UserData {
   email: string;
   joined: string;
   scentProfile: string | null;
+  orders: OrderRecord[];
 }
 
 // ─── Mock data ────────────────────────────────────────────────────────────────
 
-const MOCK_ORDERS = [
-  { id: "ZA-84201", date: "2 Jun 2026", status: "Delivered", items: ["Noir Ambre 100ml"], total: 45 },
-  { id: "ZA-77953", date: "14 May 2026", status: "Delivered", items: ["Fleur d'Ombre 50ml", "Citrus Nébuleuse 50ml"], total: 50 },
-];
 
 const MOCK_WISHLIST = ["noir-ambre", "citrus-nebuleuse"];
 
@@ -88,45 +96,81 @@ function StatusBadge({ status }: { status: string }) {
 
 // ─── Tab panels ──────────────────────────────────────────────────────────────
 
-function ProfileTab({ user }: { user: UserData }) {
-  const profile = fragrances.find(f => f.tone === (user.scentProfile ?? "warm-musky")) ?? fragrances[0];
+function ProfileTab({ user, onRetakeQuiz }: { user: UserData; onRetakeQuiz: () => void }) {
+  const { addToCart } = useStore();
+  const { formatPrice } = useCurrency();
+  const profile = user.scentProfile
+    ? fragrances.find(f => f.tone === user.scentProfile) ?? null
+    : null;
 
   return (
     <div className="space-y-8">
       {/* Scent profile card */}
       <div className="relative overflow-hidden border border-white/6 bg-[#0a0a0a] p-8">
-        <div className="absolute top-0 right-0 w-64 h-64 opacity-20" style={{ background: `radial-gradient(circle at 100% 0%, ${profile.accentColor} 0%, transparent 60%)` }} />
+        {profile && (
+          <div className="absolute top-0 right-0 w-64 h-64 opacity-20" style={{ background: `radial-gradient(circle at 100% 0%, ${profile.accentColor} 0%, transparent 60%)` }} />
+        )}
         <p className="text-[9px] tracking-[0.35em] uppercase text-[#c9a96e] mb-6">Your Scent Profile</p>
-        <div className="flex items-start gap-8">
-          <div className="relative w-20 h-24 flex-shrink-0">
-            <Image src={profile.image} alt={profile.name} fill className="object-cover object-center" sizes="80px" />
+
+        {!profile ? (
+          /* ── Blank state ── */
+          <div className="py-6">
+            <div className="w-10 h-px bg-[#c9a96e]/30 mb-8" />
+            <p className="font-serif text-2xl font-light text-[#f5f0e8]/50 mb-3 leading-tight" style={{ fontFamily: "Cormorant Garamond, serif" }}>
+              Your signature scent<br />is waiting.
+            </p>
+            <p className="text-xs text-[#f5f0e8]/30 leading-relaxed mb-8 max-w-sm">
+              Take our four-question scent consultation to discover the fragrance that was made for you.
+            </p>
+            <button
+              onClick={onRetakeQuiz}
+              className="flex items-center gap-3 border border-[#c9a96e]/40 text-[#c9a96e] text-[10px] tracking-[0.25em] uppercase px-7 py-3.5 hover:bg-[#c9a96e]/10 transition-all duration-300"
+            >
+              Begin Scent Consultation <ChevronRight size={11} />
+            </button>
           </div>
-          <div className="flex-1">
-            <div className="flex items-center gap-3 mb-2">
-              <ScentFamilyIcon family={profile.tone} />
-              <p className="text-[9px] tracking-[0.3em] uppercase text-[#f5f0e8]/40">{profile.toneLabel}</p>
+        ) : (
+          /* ── Populated state ── */
+          <>
+            <div className="flex items-start gap-8">
+              <div className="relative w-20 h-24 flex-shrink-0">
+                <Image src={profile.image} alt={profile.name} fill className="object-cover object-center" sizes="80px" />
+              </div>
+              <div className="flex-1">
+                <div className="flex items-center gap-3 mb-2">
+                  <ScentFamilyIcon family={profile.tone} />
+                  <p className="text-[9px] tracking-[0.3em] uppercase text-[#f5f0e8]/40">{profile.toneLabel}</p>
+                </div>
+                <h3 className="font-serif text-2xl font-light text-[#f5f0e8] mb-2" style={{ fontFamily: "Cormorant Garamond, serif" }}>
+                  {profile.name}
+                </h3>
+                <p className="text-xs text-[#f5f0e8]/40 leading-relaxed max-w-sm mb-5">{profile.subtitle}</p>
+                <div className="flex flex-wrap gap-2 mb-5">
+                  {profile.notes.heart.map(n => (
+                    <span key={n} className="text-[9px] tracking-wider uppercase border border-white/8 px-3 py-1.5 text-[#f5f0e8]/40">
+                      {n}
+                    </span>
+                  ))}
+                </div>
+                <button
+                  onClick={() => addToCart({ slug: profile.slug, name: profile.name, price: profile.prices["100ml"], size: "100ml", image: profile.image })}
+                  className="flex items-center gap-2 bg-[#f5f0e8] text-[#0d0d0d] text-[9px] tracking-[0.2em] uppercase px-6 py-2.5 font-medium hover:bg-[#c9a96e] transition-colors duration-300"
+                >
+                  Add to Cart — {formatPrice(profile.prices["100ml"])}
+                </button>
+              </div>
             </div>
-            <h3 className="font-serif text-2xl font-light text-[#f5f0e8] mb-2" style={{ fontFamily: "Cormorant Garamond, serif" }}>
-              {profile.name}
-            </h3>
-            <p className="text-xs text-[#f5f0e8]/40 leading-relaxed max-w-sm mb-5">{profile.subtitle}</p>
-            <div className="flex flex-wrap gap-2">
-              {profile.notes.heart.map(n => (
-                <span key={n} className="text-[9px] tracking-wider uppercase border border-white/8 px-3 py-1.5 text-[#f5f0e8]/40">
-                  {n}
-                </span>
-              ))}
+            <div className="mt-6 pt-6 border-t border-white/5">
+              <button onClick={onRetakeQuiz} className="text-[10px] tracking-[0.25em] uppercase text-[#c9a96e]/70 hover:text-[#c9a96e] transition-colors flex items-center gap-2">
+                Retake scent consultation <ChevronRight size={10} />
+              </button>
             </div>
-          </div>
-        </div>
-        <div className="mt-6 pt-6 border-t border-white/5">
-          <Link href="/" className="text-[10px] tracking-[0.25em] uppercase text-[#c9a96e]/70 hover:text-[#c9a96e] transition-colors flex items-center gap-2">
-            Retake scent consultation <ChevronRight size={10} />
-          </Link>
-        </div>
+          </>
+        )}
       </div>
 
-      {/* Recommendations */}
+      {/* Recommendations — only when profile is set */}
+      {profile && (
       <div>
         <p className="text-[9px] tracking-[0.35em] uppercase text-[#f5f0e8]/30 mb-5">Recommended For You</p>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
@@ -137,51 +181,69 @@ function ProfileTab({ user }: { user: UserData }) {
               </div>
               <p className="text-[9px] tracking-widest uppercase text-[#c9a96e]/60 mb-1">{f.toneLabel}</p>
               <p className="font-serif text-base font-light text-[#f5f0e8]" style={{ fontFamily: "Cormorant Garamond, serif" }}>{f.name}</p>
-              <p className="text-[10px] text-[#f5f0e8]/30 mt-0.5">from £{f.prices["50ml"]}</p>
+              <p className="text-[10px] text-[#f5f0e8]/30 mt-0.5">from {formatPrice(f.prices["50ml"])}</p>
             </Link>
           ))}
         </div>
       </div>
+      )}
     </div>
   );
 }
 
-function OrdersTab() {
+function OrdersTab({ orders }: { orders: OrderRecord[] }) {
   return (
     <div className="space-y-4">
       <p className="text-[9px] tracking-[0.35em] uppercase text-[#f5f0e8]/30 mb-6">Order History</p>
-      {MOCK_ORDERS.map(order => (
-        <motion.div
-          key={order.id}
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="border border-white/6 bg-[#0a0a0a] p-6"
-        >
-          <div className="flex items-start justify-between mb-4">
-            <div>
-              <p className="font-serif text-lg font-light text-[#c9a96e]" style={{ fontFamily: "Cormorant Garamond, serif" }}>{order.id}</p>
-              <p className="text-[10px] text-[#f5f0e8]/30 tracking-wider mt-0.5">{order.date}</p>
+      {orders.length === 0 ? (
+        <div className="border border-white/5 bg-[#0a0a0a] p-12 text-center">
+          <div className="w-10 h-px bg-[#c9a96e]/20 mx-auto mb-8" />
+          <p className="font-serif text-2xl font-light text-[#f5f0e8]/30 mb-3" style={{ fontFamily: "Cormorant Garamond, serif" }}>
+            No orders yet.
+          </p>
+          <p className="text-xs text-[#f5f0e8]/25 leading-relaxed mb-8">
+            Your order history will appear here once you make your first purchase.
+          </p>
+          <Link href="/shop" className="inline-flex items-center gap-2 border border-[#c9a96e]/30 text-[#c9a96e] text-[9px] tracking-[0.25em] uppercase px-6 py-3 hover:bg-[#c9a96e]/10 transition-all duration-300">
+            Discover the Collection <ChevronRight size={10} />
+          </Link>
+        </div>
+      ) : (
+        orders.map((order, i) => (
+          <motion.div
+            key={order.id}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: i * 0.06 }}
+            className="border border-white/6 bg-[#0a0a0a] p-6"
+          >
+            <div className="flex items-start justify-between mb-4">
+              <div>
+                <p className="font-serif text-lg font-light text-[#c9a96e]" style={{ fontFamily: "Cormorant Garamond, serif" }}>{order.id}</p>
+                <p className="text-[10px] text-[#f5f0e8]/30 tracking-wider mt-0.5">{order.date}</p>
+              </div>
+              <StatusBadge status={order.status} />
             </div>
-            <StatusBadge status={order.status} />
-          </div>
-          <div className="space-y-1 mb-5">
-            {order.items.map(item => (
-              <p key={item} className="text-sm text-[#f5f0e8]/60">{item}</p>
-            ))}
-          </div>
-          <div className="flex items-center justify-between pt-4 border-t border-white/5">
-            <p className="text-sm text-[#f5f0e8]/50">Total <span className="text-[#c9a96e] font-serif">£{order.total}</span></p>
-            <button className="flex items-center gap-1.5 text-[9px] tracking-[0.2em] uppercase text-[#f5f0e8]/40 hover:text-[#c9a96e] transition-colors border border-white/8 hover:border-[#c9a96e]/30 px-4 py-2">
-              <RotateCcw size={10} /> Reorder
-            </button>
-          </div>
-        </motion.div>
-      ))}
+            <div className="space-y-1 mb-5">
+              {order.items.map(item => (
+                <p key={item} className="text-sm text-[#f5f0e8]/60">{item}</p>
+              ))}
+            </div>
+            <div className="flex items-center justify-between pt-4 border-t border-white/5">
+              <p className="text-sm text-[#f5f0e8]/50">Total <span className="text-[#c9a96e] font-serif">£{order.total.toFixed(2)}</span></p>
+              <button className="flex items-center gap-1.5 text-[9px] tracking-[0.2em] uppercase text-[#f5f0e8]/40 hover:text-[#c9a96e] transition-colors border border-white/8 hover:border-[#c9a96e]/30 px-4 py-2">
+                <RotateCcw size={10} /> Reorder
+              </button>
+            </div>
+          </motion.div>
+        ))
+      )}
     </div>
   );
 }
 
 function WishlistTab() {
+  const { formatPrice } = useCurrency();
   const saved = fragrances.filter(f => MOCK_WISHLIST.includes(f.slug));
   return (
     <div>
@@ -201,7 +263,7 @@ function WishlistTab() {
               <div className="p-5">
                 <p className="text-[9px] tracking-widest uppercase text-[#c9a96e]/60 mb-1">{f.toneLabel}</p>
                 <p className="font-serif text-lg font-light text-[#f5f0e8] mb-3" style={{ fontFamily: "Cormorant Garamond, serif" }}>{f.name}</p>
-                <p className="text-xs text-[#f5f0e8]/30">from £{f.prices["50ml"]}</p>
+                <p className="text-xs text-[#f5f0e8]/30">from {formatPrice(f.prices["50ml"])}</p>
               </div>
             </Link>
           </motion.div>
@@ -432,6 +494,7 @@ export default function AccountPage() {
   const router = useRouter();
   const [activeTab, setActiveTab] = useState("profile");
   const [user, setUser] = useState<UserData | null>(null);
+  const [quizOpen, setQuizOpen] = useState(false);
 
   useEffect(() => {
     const raw = typeof window !== "undefined" ? localStorage.getItem("zaia_user") : null;
@@ -537,8 +600,8 @@ export default function AccountPage() {
               exit={{ opacity: 0, y: -8 }}
               transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
             >
-              {activeTab === "profile" && <ProfileTab user={user} />}
-              {activeTab === "orders" && <OrdersTab />}
+              {activeTab === "profile" && <ProfileTab user={user} onRetakeQuiz={() => setQuizOpen(true)} />}
+              {activeTab === "orders" && <OrdersTab orders={user.orders ?? []} />}
               {activeTab === "wishlist" && <WishlistTab />}
               {activeTab === "samples" && <SamplesTab />}
               {activeTab === "journal" && <JournalTab />}
@@ -547,6 +610,18 @@ export default function AccountPage() {
           </AnimatePresence>
         </div>
       </div>
+
+      {/* Scent quiz — triggered by retake button */}
+      {quizOpen && (
+        <ScentQuiz
+          forceOpen={quizOpen}
+          onClose={() => {
+            setQuizOpen(false);
+            const raw = localStorage.getItem("zaia_user");
+            if (raw) setUser(JSON.parse(raw));
+          }}
+        />
+      )}
     </div>
   );
 }

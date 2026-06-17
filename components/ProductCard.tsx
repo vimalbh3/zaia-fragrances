@@ -7,6 +7,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Fragrance } from "@/lib/fragrances";
 import { useStore } from "@/lib/store";
+import { useCurrency } from "@/lib/currency";
 
 interface ProductCardProps {
   fragrance: Fragrance;
@@ -17,6 +18,7 @@ export default function ProductCard({ fragrance, index = 0 }: ProductCardProps) 
   const [hovered, setHovered] = useState(false);
   const [added, setAdded] = useState(false);
   const { addToCart } = useStore();
+  const { formatPrice } = useCurrency();
 
   const handleAdd = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -95,12 +97,12 @@ export default function ProductCard({ fragrance, index = 0 }: ProductCardProps) 
           </h3>
         </Link>
         <p className="text-xs text-[#f5f0e8]/40 tracking-wider">{fragrance.keyNotes}</p>
-        <div className="flex items-center justify-between mt-3">
-          <p className="text-sm text-[#f5f0e8]/80">from £{fragrance.prices["50ml"]}</p>
+        <div className="flex flex-col gap-2 mt-3 sm:flex-row sm:items-center sm:justify-between">
+          <p className="text-sm text-[#f5f0e8]/80">from {formatPrice(fragrance.prices["50ml"])}</p>
           <motion.button
             onClick={handleAdd}
             whileTap={{ scale: 0.95 }}
-            className="flex items-center gap-2 text-[9px] tracking-[0.2em] uppercase border border-white/15 px-4 py-2 hover:border-[#c9a96e]/50 hover:text-[#c9a96e] transition-all duration-300"
+            className="flex items-center justify-center gap-2 text-[9px] tracking-[0.2em] uppercase border border-white/15 px-3 py-2 hover:border-[#c9a96e]/50 hover:text-[#c9a96e] transition-all duration-300 w-full sm:w-auto"
           >
             <AnimatePresence mode="wait">
               {added ? (

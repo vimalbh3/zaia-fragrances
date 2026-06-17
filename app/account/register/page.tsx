@@ -51,6 +51,7 @@ export default function RegisterPage() {
           email: form.email,
           joined: new Date().toISOString(),
           scentProfile: null,
+          orders: [],
         }));
       }
       router.push("/account/welcome");

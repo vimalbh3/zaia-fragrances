@@ -6,9 +6,11 @@ import Image from "next/image";
 import Link from "next/link";
 import { useStore } from "@/lib/store";
 import { fragrances } from "@/lib/fragrances";
+import { useCurrency } from "@/lib/currency";
 
 export default function CartDrawer() {
   const { cart, cartOpen, setCartOpen, removeFromCart, updateQuantity, cartTotal } = useStore();
+  const { formatPrice, currency } = useCurrency();
   const freeShipping = cartTotal >= 100;
 
   return (
@@ -142,7 +144,7 @@ export default function CartDrawer() {
                             </div>
 
                             <div className="flex items-center gap-3">
-                              <span className="text-sm text-[#f5f0e8]/80">£{item.price * item.quantity}</span>
+                              <span className="text-sm text-[#f5f0e8]/80">{formatPrice(item.price * item.quantity)}</span>
                               <button
                                 onClick={() => removeFromCart(item.slug, item.size)}
                                 className="text-[#f5f0e8]/20 hover:text-[#f5f0e8]/60 transition-colors"
@@ -172,7 +174,7 @@ export default function CartDrawer() {
                     <Truck size={11} className={`flex-shrink-0 ${freeShipping ? "text-[#c9a96e]/50" : "text-[#f5f0e8]/25"}`} />
                     {freeShipping
                       ? <span className="text-[#c9a96e]/60">Free shipping applied</span>
-                      : `Add £${100 - cartTotal} more for free shipping`}
+                      : `Add ${formatPrice(100 - cartTotal)} more for free shipping`}
                   </div>
                   <div className="flex items-center gap-2.5 text-[10px] tracking-wide text-[#f5f0e8]/40">
                     <Shield size={11} className="text-[#c9a96e]/50 flex-shrink-0" />
@@ -185,7 +187,7 @@ export default function CartDrawer() {
                   <span className="text-[10px] tracking-[0.25em] uppercase text-[#f5f0e8]/50">Order Total</span>
                   <div className="text-right">
                     <span className="font-serif text-xl font-light text-[#c9a96e]" style={{ fontFamily: "Cormorant Garamond, serif" }}>
-                      £{cartTotal}
+                      {formatPrice(cartTotal)}
                     </span>
                     {!freeShipping && (
                       <p className="text-[9px] text-[#f5f0e8]/25 tracking-wider">+ shipping</p>

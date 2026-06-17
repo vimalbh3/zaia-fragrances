@@ -5,10 +5,12 @@ import { motion, AnimatePresence } from "framer-motion";
 import { X, Search } from "lucide-react";
 import { useStore } from "@/lib/store";
 import { fragrances } from "@/lib/fragrances";
+import { useCurrency } from "@/lib/currency";
 import Link from "next/link";
 
 export default function SearchOverlay() {
   const { searchOpen, setSearchOpen } = useStore();
+  const { formatPrice } = useCurrency();
   const [query, setQuery] = useState("");
 
   const results = query.length > 1
@@ -68,7 +70,7 @@ export default function SearchOverlay() {
                       </p>
                       <p className="text-xs text-[#f5f0e8]/40 tracking-wider uppercase mt-0.5">{f.keyNotes}</p>
                     </div>
-                    <p className="ml-auto text-[#c9a96e] text-sm">from £{f.prices["50ml"]}</p>
+                    <p className="ml-auto text-[#c9a96e] text-sm">from {formatPrice(f.prices["50ml"])}</p>
                   </Link>
                 ))}
               </div>

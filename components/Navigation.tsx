@@ -5,19 +5,31 @@ import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { Search, User, ShoppingBag, X, Menu } from "lucide-react";
 import { useStore } from "@/lib/store";
+import { useCurrency, CURRENCIES } from "@/lib/currency";
 import CartDrawer from "./CartDrawer";
 import SearchOverlay from "./SearchOverlay";
 
 export default function Navigation() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [currencyOpen, setCurrencyOpen] = useState(false);
   const { cartCount, setCartOpen, setSearchOpen, cartOpen, searchOpen } = useStore();
+  const { currency, setCurrencyCode } = useCurrency();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  useEffect(() => {
+    if (!currencyOpen) return;
+    const close = (e: MouseEvent) => {
+      if (!(e.target as Element).closest("[data-currency-selector]")) setCurrencyOpen(false);
+    };
+    document.addEventListener("mousedown", close);
+    return () => document.removeEventListener("mousedown", close);
+  }, [currencyOpen]);
 
   const navLinks = [
     { href: "/shop", label: "Shop" },
@@ -67,6 +79,41 @@ export default function Navigation() {
 
           {/* Right icons */}
           <div className="flex items-center gap-5">
+            {/* Currency selector */}
+            <div className="relative hidden lg:block" data-currency-selector>
+              <button
+                onClick={() => setCurrencyOpen(o => !o)}
+                className="gold-link text-[#f5f0e8]/50 hover:text-[#f5f0e8] transition-colors text-[10px] tracking-[0.2em] flex items-center gap-1"
+              >
+                {currency.code}
+                <motion.span animate={{ rotate: currencyOpen ? 180 : 0 }} transition={{ duration: 0.2 }} className="inline-block">
+                  ▾
+                </motion.span>
+              </button>
+              <AnimatePresence>
+                {currencyOpen && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 6 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 6 }}
+                    transition={{ duration: 0.2 }}
+                    className="absolute right-0 top-full mt-3 bg-[#111] border border-white/8 z-50 w-40 max-h-72 overflow-y-auto"
+                    style={{ scrollbarWidth: "none" }}
+                  >
+                    {Object.values(CURRENCIES).map(c => (
+                      <button
+                        key={c.code}
+                        onClick={() => { setCurrencyCode(c.code); setCurrencyOpen(false); }}
+                        className={`w-full text-left px-4 py-2.5 text-[10px] tracking-[0.15em] uppercase transition-colors ${c.code === currency.code ? "text-[#c9a96e] bg-[#c9a96e]/5" : "text-[#f5f0e8]/40 hover:text-[#f5f0e8]/70 hover:bg-white/5"}`}
+                      >
+                        {c.code} <span className="opacity-50">{c.symbol.trim()}</span>
+                      </button>
+                    ))}
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+
             <button
               onClick={() => setSearchOpen(true)}
               className="gold-link text-[#f5f0e8]/70 hover:text-[#f5f0e8] transition-colors hidden lg:block"

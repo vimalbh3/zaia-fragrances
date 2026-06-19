@@ -65,7 +65,7 @@ const results: Record<Family, {
   "warm-musky": {
     slug: "noir-ambre",
     name: "Noir Ambre",
-    toneLabel: "Warm & Musky",
+    toneLabel: "Amber & Smoke",
     image: "/bottle-noir-ambre-v2.png",
     headline: "You are drawn to warmth.",
     verse: "Smouldering amber, a veil of smoke, vanilla that lingers long after you've left the room. Noir Ambre is for those who leave an impression.",

@@ -19,7 +19,7 @@ export const fragrances: Fragrance[] = [
     name: "Noir Ambre",
     subtitle: "A smouldering amber wrapped in smoke and vanilla.",
     tone: "warm-musky",
-    toneLabel: "Warm & Musky",
+    toneLabel: "Amber & Smoke",
     prices: { "50ml": 25, "100ml": 45 },
     notes: {
       top: ["Black pepper", "Saffron", "Smoke"],
@@ -114,9 +114,9 @@ export const fragrances: Fragrance[] = [
 export const tones = [
   {
     id: "warm-musky",
-    label: "Warm & Musky",
+    label: "Amber & Smoke",
     description:
-      "Deep, sensual and enveloping scents with rich woods, amber and smoky accords.",
+      "Deep, enveloping, and shadowed. A convergence of rich resins, sacred oud, and sun-warmed amber accords.",
     keyNotes: ["Amber", "Benzoin", "Vanilla", "Smoke", "Labdanum"],
     gradient: "from-[#3d2b1f] via-[#5c3d22] to-[#2a1a0e]",
     accentColor: "#c9a96e",
@@ -127,7 +127,7 @@ export const tones = [
     id: "floral-soft",
     label: "Floral & Soft",
     description:
-      "Elegant, romantic and expressive compositions with floral and powdery notes.",
+      "Quietly expressive. Elegant, structured compositions built on white petals, crushed iris, and soft, powdery memories.",
     keyNotes: ["Jasmine", "Rose", "Iris", "Tuberose", "Peony"],
     gradient: "from-[#2d1f2a] via-[#4a3040] to-[#1e1520]",
     accentColor: "#d4b8c7",
@@ -138,7 +138,7 @@ export const tones = [
     id: "fresh-citrus",
     label: "Fresh & Citrus",
     description:
-      "Clean, uplifting and vibrant scents inspired by citrus, herbs and watery accords.",
+      "Crisp, elevated, and fluid. Vibrant notes of sun-ripened citrus, crushed botanicals, and clean water accords.",
     keyNotes: ["Bergamot", "Neroli", "White Tea", "Lemon", "Petitgrain"],
     gradient: "from-[#1a2820] via-[#243d2e] to-[#111e18]",
     accentColor: "#b8c9a0",
@@ -149,7 +149,7 @@ export const tones = [
     id: "woody-earthy",
     label: "Woody & Earthy",
     description:
-      "Grounded, sophisticated and timeless blends built on woods, resins and spices.",
+      "Grounded and permanent. Sophisticated, mineral-rich blends of raw cedarwood, forest moss, and ancient spices.",
     keyNotes: ["Oud", "Sandalwood", "Vetiver", "Patchouli", "Incense"],
     gradient: "from-[#1c1a14] via-[#2e2a1e] to-[#121009]",
     accentColor: "#9b8a7a",

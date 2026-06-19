@@ -32,10 +32,10 @@ export default function FindYourTone() {
             className="font-serif text-4xl lg:text-5xl font-light tracking-wide mb-4"
             style={{ fontFamily: "Cormorant Garamond, serif" }}
           >
-            Find Your Tone
+            The Olfactive Families
           </h2>
           <p className="text-sm text-[#f5f0e8]/40 max-w-md mx-auto leading-relaxed">
-            Each fragrance is crafted with intention.<br />Explore by mood, note or tone.
+            Each fragrance is crafted with intention.<br />Explore by mood, note or family.
           </p>
         </motion.div>
 

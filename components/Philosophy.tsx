@@ -24,16 +24,16 @@ export default function Philosophy() {
               Less.<br />But Better.
             </h2>
             <p className="text-sm text-[#f5f0e8]/50 leading-relaxed mb-4 max-w-sm">
-              ZAIA is an exploration of scent, memory and emotion. Every fragrance is made with the finest ingredients, blending craftsmanship with a modern, minimalist vision.
+              We craft at the intersection of heritage and modern minimalism, blending rare, raw ingredients with an undone, contemporary vision.
             </p>
             <p className="text-sm text-[#f5f0e8]/40 leading-relaxed mb-10 max-w-sm">
-              We don&apos;t create for volume. We create for resonance. Each bottle holds something singular — a feeling, a moment, a version of you.
+              We do not design for volume; we design for resonance. ZAIA is not a mask to wear, but a landscape to inhabit. No labels. No boundaries. Just scent.
             </p>
             <Link
               href="/about"
               className="inline-flex items-center gap-3 border border-[#f5f0e8]/20 text-xs tracking-[0.2em] uppercase px-7 py-3.5 text-[#f5f0e8]/70 hover:border-[#c9a96e]/50 hover:text-[#c9a96e] transition-all duration-300"
             >
-              Our Story
+              Step inside our story
             </Link>
           </motion.div>
 

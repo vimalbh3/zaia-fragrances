@@ -49,9 +49,9 @@ export default function Hero() {
               letterSpacing: "-0.01em",
             }}
           >
-            Scents that<br />
-            leave an<br />
-            impression.
+            Fragrance<br />
+            beyond<br />
+            borders.
           </motion.h1>
 
           <motion.p
@@ -60,7 +60,7 @@ export default function Hero() {
             transition={{ delay: 0.6, duration: 0.8 }}
             className="text-[#f5f0e8]/50 tracking-[0.25em] text-sm uppercase mb-10"
           >
-            Refined. Unisex. Timeless.
+            East meets West. Intuition over gender. Timeless scent.
           </motion.p>
 
           <motion.div

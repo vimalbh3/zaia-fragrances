@@ -8,12 +8,16 @@ export default function Newsletter() {
   const [email, setEmail] = useState("");
   const [submitted, setSubmitted] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (email) {
-      setSubmitted(true);
-      setEmail("");
-    }
+    if (!email) return;
+    setSubmitted(true);
+    setEmail("");
+    fetch("/api/notify", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ type: "newsletter", email }),
+    }).catch(() => {});
   };
 
   return (

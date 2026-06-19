@@ -54,6 +54,11 @@ export default function RegisterPage() {
           orders: [],
         }));
       }
+      fetch("/api/notify", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ type: "register", firstName: form.firstName, lastName: form.lastName, email: form.email }),
+      }).catch(() => {});
       router.push("/account/welcome");
     }, 1200);
   };

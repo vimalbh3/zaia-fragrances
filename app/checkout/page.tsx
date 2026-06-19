@@ -579,7 +579,33 @@ function CheckoutContent() {
                   onBack={() => setStep(2)}
                   deliveryData={deliveryData}
                   onPlace={() => {
-                    saveOrderToUser(Number(deliveryData.shippingCost ?? 0));
+                    const shippingCost = Number(deliveryData.shippingCost ?? 0);
+                    const orderId = `ZA-${Math.floor(10000 + Math.random() * 90000)}`;
+                    saveOrderToUser(shippingCost);
+                    const addressParts = [
+                      deliveryData.address1,
+                      deliveryData.address2,
+                      deliveryData.city,
+                      deliveryData.postcode,
+                      deliveryData.country,
+                    ].filter(Boolean).join(", ");
+                    fetch("/api/notify", {
+                      method: "POST",
+                      headers: { "Content-Type": "application/json" },
+                      body: JSON.stringify({
+                        type: "order",
+                        orderId,
+                        customer: {
+                          name: `${customerData.firstName} ${customerData.lastName}`,
+                          email: customerData.email,
+                          phone: customerData.phone,
+                        },
+                        address: addressParts,
+                        items: cart.map(i => ({ name: i.name, size: i.size, qty: i.quantity, price: i.price })),
+                        total: cartTotal + shippingCost,
+                        shipping: shippingCost,
+                      }),
+                    }).catch(() => {});
                     clearCart();
                     router.push("/checkout/confirmation");
                   }}

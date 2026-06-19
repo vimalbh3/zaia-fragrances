@@ -53,6 +53,7 @@ export default function FindYourTone() {
                 transition={{ delay: i * 0.1, duration: 0.7 }}
                 onHoverStart={() => setActive(tone.id)}
                 onHoverEnd={() => setActive(null)}
+                onClick={() => setActive(isActive ? null : tone.id)}
                 className="relative overflow-hidden cursor-pointer"
                 style={{ minHeight: "520px" }}
               >
@@ -71,7 +72,7 @@ export default function FindYourTone() {
                   />
                 </motion.div>
 
-                {/* Dark overlay — lightens on hover (floral stays darker for legibility) */}
+                {/* Dark overlay */}
                 <motion.div
                   className="absolute inset-0"
                   animate={{
@@ -114,7 +115,7 @@ export default function FindYourTone() {
                   {/* Top label */}
                   <div>
                     <motion.p
-                      animate={{ color: isActive ? tone.accentColor : "rgba(245,240,232,0.35)", y: isActive ? 0 : 0 }}
+                      animate={{ color: isActive ? tone.accentColor : "rgba(245,240,232,0.35)" }}
                       transition={{ duration: 0.4 }}
                       className="text-[9px] tracking-[0.35em] uppercase mb-5 font-medium"
                     >
@@ -133,8 +134,9 @@ export default function FindYourTone() {
                       {tone.label}
                     </motion.h3>
 
+                    {/* Description — always readable (opacity raised from 0.35 to 0.65 base) */}
                     <motion.p
-                      animate={{ opacity: isActive ? 0.65 : 0.35 }}
+                      animate={{ opacity: isActive ? 0.8 : 0.65 }}
                       transition={{ duration: 0.4 }}
                       className="text-xs leading-relaxed text-[#f5f0e8]"
                       style={{ maxWidth: "200px" }}
@@ -143,43 +145,68 @@ export default function FindYourTone() {
                     </motion.p>
                   </div>
 
-                  {/* Bottom: notes + CTA revealed on hover */}
+                  {/* Bottom: notes + CTA */}
                   <div>
-                    <AnimatePresence>
-                      {isActive && (
-                        <motion.div
-                          initial={{ opacity: 0, y: 16 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          exit={{ opacity: 0, y: 8 }}
-                          transition={{ duration: 0.45, delay: 0.05 }}
-                        >
-                          <p className="text-[9px] tracking-[0.3em] uppercase mb-3" style={{ color: tone.accentColor }}>
-                            Key Notes
-                          </p>
-                          <div className="flex flex-wrap gap-2 mb-6">
-                            {tone.keyNotes.map((note) => (
-                              <span
-                                key={note}
-                                className="text-[9px] tracking-wider uppercase border px-2.5 py-1 backdrop-blur-sm"
-                                style={{
-                                  borderColor: `${tone.accentColor}50`,
-                                  color: `${tone.accentColor}dd`,
-                                  background: "rgba(0,0,0,0.25)",
-                                }}
-                              >
-                                {note}
-                              </span>
-                            ))}
-                          </div>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
+                    {/* Always visible on mobile/tablet */}
+                    <div className="lg:hidden mb-4">
+                      <p className="text-[9px] tracking-[0.3em] uppercase mb-3" style={{ color: tone.accentColor }}>
+                        Key Notes
+                      </p>
+                      <div className="flex flex-wrap gap-2 mb-4">
+                        {tone.keyNotes.map((note) => (
+                          <span
+                            key={note}
+                            className="text-[9px] tracking-wider uppercase border px-2.5 py-1 backdrop-blur-sm"
+                            style={{
+                              borderColor: `${tone.accentColor}50`,
+                              color: `${tone.accentColor}dd`,
+                              background: "rgba(0,0,0,0.25)",
+                            }}
+                          >
+                            {note}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Hover-revealed notes on desktop */}
+                    <div className="hidden lg:block">
+                      <AnimatePresence>
+                        {isActive && (
+                          <motion.div
+                            initial={{ opacity: 0, y: 16 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: 8 }}
+                            transition={{ duration: 0.45, delay: 0.05 }}
+                          >
+                            <p className="text-[9px] tracking-[0.3em] uppercase mb-3" style={{ color: tone.accentColor }}>
+                              Key Notes
+                            </p>
+                            <div className="flex flex-wrap gap-2 mb-6">
+                              {tone.keyNotes.map((note) => (
+                                <span
+                                  key={note}
+                                  className="text-[9px] tracking-wider uppercase border px-2.5 py-1 backdrop-blur-sm"
+                                  style={{
+                                    borderColor: `${tone.accentColor}50`,
+                                    color: `${tone.accentColor}dd`,
+                                    background: "rgba(0,0,0,0.25)",
+                                  }}
+                                >
+                                  {note}
+                                </span>
+                              ))}
+                            </div>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </div>
 
                     <div className="pt-4 border-t border-white/10">
                       <Link
                         href={`/shop?tone=${tone.id}`}
-                        className="flex items-center gap-2 text-[9px] tracking-[0.25em] uppercase transition-colors duration-300 group"
-                        style={{ color: isActive ? tone.accentColor : "rgba(245,240,232,0.3)" }}
+                        className="flex items-center gap-2 text-[9px] tracking-[0.25em] uppercase transition-colors duration-300"
+                        style={{ color: isActive ? tone.accentColor : "rgba(245,240,232,0.55)" }}
                       >
                         Explore
                         <motion.span

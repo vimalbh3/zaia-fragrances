@@ -138,7 +138,7 @@ export default function Hero() {
             >
               Noir Ambre
             </p>
-            <p className="text-[10px] tracking-wider text-[#f5f0e8]/30 uppercase mt-1">
+            <p className="text-[10px] tracking-wider text-[#f5f0e8]/65 uppercase mt-1">
               Amber · Smoke · Vanilla
             </p>
           </motion.div>

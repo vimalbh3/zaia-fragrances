@@ -7,14 +7,23 @@ import Image from "next/image";
 export default function Hero() {
   return (
     <section className="relative min-h-screen bg-[#0d0d0d] flex items-center overflow-hidden">
-      {/* Radial spotlight */}
-      <div
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          background:
-            "radial-gradient(ellipse 65% 70% at 75% 45%, rgba(201,169,110,0.06) 0%, rgba(201,169,110,0.02) 40%, transparent 70%)",
-        }}
-      />
+      {/* Background video */}
+      <video
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload="auto"
+        className="absolute inset-0 w-full h-full object-cover opacity-40 pointer-events-none"
+        aria-hidden="true"
+      >
+        <source src="/hero-bg.webm" type="video/webm" />
+        <source src="/hero-bg.mp4" type="video/mp4" />
+      </video>
+
+      {/* Dark overlay to keep text readable */}
+      <div className="absolute inset-0 bg-[#0d0d0d]/60 pointer-events-none" />
+
       {/* Top vignette */}
       <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-[#0d0d0d] to-transparent pointer-events-none" />
       {/* Bottom vignette */}

@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { Resend } from "resend";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
 const TO = process.env.NOTIFY_EMAIL ?? "vish_bhatt90@hotmail.com";
 const FROM = "ZAIA Notifications <onboarding@resend.dev>";
 
@@ -9,7 +8,7 @@ export async function POST(req: NextRequest) {
   if (!process.env.RESEND_API_KEY) {
     return NextResponse.json({ error: "RESEND_API_KEY not set" }, { status: 500 });
   }
-
+  const resend = new Resend(process.env.RESEND_API_KEY);
   const body = await req.json();
   const { type } = body;
 
